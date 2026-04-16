@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -15,11 +13,7 @@ class UpdateProductRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $product = $this->route('product');
-
         $this->merge([
-            'slug' => $this->slug ?: Str::slug((string) $this->name),
-            'product_id' => $product?->id,
             'is_active' => $this->boolean('is_active'),
             'featured' => $this->boolean('featured'),
         ]);
@@ -30,8 +24,6 @@ class UpdateProductRequest extends FormRequest
         return [
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', Rule::unique('products', 'slug')->ignore($this->input('product_id'))],
-            'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')->ignore($this->input('product_id'))],
             'brand' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0.01'],

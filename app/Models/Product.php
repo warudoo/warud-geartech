@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'category_id',
@@ -28,6 +29,16 @@ class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
+
+    public const SKU_CATEGORY_PREFIXES = [
+        'keyboard' => 'KEY',
+        'mouse' => 'MOU',
+        'headset' => 'HEA',
+        'iem' => 'IEM',
+        'mousepad' => 'MPD',
+        'monitor' => 'MON',
+        'bundles' => 'BND',
+    ];
 
     protected function casts(): array
     {
@@ -69,5 +80,12 @@ class Product extends Model
                 ->orWhere('sku', 'like', "%{$search}%")
                 ->orWhere('brand', 'like', "%{$search}%");
         });
+    }
+
+    public static function skuPrefixForCategory(?string $categoryName): string
+    {
+        $normalized = Str::of((string) $categoryName)->trim()->lower()->value();
+
+        return self::SKU_CATEGORY_PREFIXES[$normalized] ?? 'PRD';
     }
 }
