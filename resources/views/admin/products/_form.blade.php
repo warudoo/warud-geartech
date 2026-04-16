@@ -8,20 +8,12 @@
         </select>
     </div>
     <div>
-        <label for="sku" class="form-label">SKU</label>
-        <input id="sku" type="text" name="sku" value="{{ old('sku', $product->sku) }}" class="form-input" required>
-    </div>
-    <div>
         <label for="brand" class="form-label">Brand</label>
         <input id="brand" type="text" name="brand" value="{{ old('brand', $product->brand) }}" class="form-input" required>
     </div>
     <div>
         <label for="name" class="form-label">Name</label>
         <input id="name" type="text" name="name" value="{{ old('name', $product->name) }}" class="form-input" required>
-    </div>
-    <div>
-        <label for="slug" class="form-label">Slug</label>
-        <input id="slug" type="text" name="slug" value="{{ old('slug', $product->slug) }}" class="form-input">
     </div>
     <div>
         <label for="price" class="form-label">Price</label>
