@@ -98,24 +98,6 @@
                     @endauth
                 </div>
             </nav>
-
-            @if($isAdminUser)
-                <div class="border-t border-slate-200/80 bg-white/75">
-                    <div class="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 xl:px-10">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-red-600/80">Admin Workspace</p>
-                            <p class="mt-1 text-sm text-slate-600">Akses buyer dinonaktifkan untuk akun admin. Gunakan panel ini untuk operasional harian.</p>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <a href="{{ route('admin.dashboard') }}" class="admin-subnav-link {{ request()->routeIs('admin.dashboard') ? 'admin-subnav-link-active' : '' }}">Dashboard</a>
-                            <a href="{{ route('admin.products.index') }}" class="admin-subnav-link {{ request()->routeIs('admin.products.*') ? 'admin-subnav-link-active' : '' }}">Products</a>
-                            <a href="{{ route('admin.categories.index') }}" class="admin-subnav-link {{ request()->routeIs('admin.categories.*') ? 'admin-subnav-link-active' : '' }}">Categories</a>
-                            <a href="{{ route('admin.orders.index') }}" class="admin-subnav-link {{ request()->routeIs('admin.orders.*') ? 'admin-subnav-link-active' : '' }}">Orders</a>
-                            <a href="{{ route('admin.reports.index') }}" class="admin-subnav-link {{ request()->routeIs('admin.reports.*') ? 'admin-subnav-link-active' : '' }}">Reports</a>
-                        </div>
-                    </div>
-                </div>
-            @endif
         </header>
 
         @include('partials.flash')
