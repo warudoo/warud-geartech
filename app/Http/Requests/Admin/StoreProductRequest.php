@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -16,7 +14,6 @@ class StoreProductRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => $this->slug ?: Str::slug((string) $this->name),
             'is_active' => $this->boolean('is_active'),
             'featured' => $this->boolean('featured'),
         ]);
@@ -27,8 +24,6 @@ class StoreProductRequest extends FormRequest
         return [
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', Rule::unique('products', 'slug')],
-            'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')],
             'brand' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0.01'],
