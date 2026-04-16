@@ -16,12 +16,14 @@ class OrderFactory extends Factory
 
     public function definition(): array
     {
+        $amount = fake()->numberBetween(199000, 4999000);
+
         return [
             'user_id' => User::factory(),
             'order_number' => 'ORD-'.fake()->unique()->numerify('########'),
             'status' => OrderStatus::PENDING_PAYMENT,
-            'subtotal' => fake()->numberBetween(199000, 4999000),
-            'total' => fake()->numberBetween(199000, 4999000),
+            'subtotal' => $amount,
+            'total' => $amount,
             'customer_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->numerify('08##########'),

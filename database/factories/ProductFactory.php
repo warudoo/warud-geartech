@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'Redragon K616 Fizz Pro',
             'Warud Geartech Glide Control XXL',
         ];
-        $name = fake()->unique()->randomElement($productNames);
+        $name = fake()->randomElement($productNames).' '.fake()->unique()->numerify('##');
         $image = 'https://placehold.co/900x700/111827/E5E7EB?text='.rawurlencode($name);
 
         return [

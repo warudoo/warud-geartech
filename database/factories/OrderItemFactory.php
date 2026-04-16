@@ -23,7 +23,7 @@ class OrderItemFactory extends Factory
             'order_id' => Order::factory(),
             'product_id' => Product::factory(),
             'product_name' => fake()->words(3, true),
-            'sku' => fake()->bothify('WGT-???-####'),
+            'sku' => 'WGT-PRD-'.fake()->numerify('####'),
             'unit_price' => $price,
             'quantity' => $quantity,
             'line_total' => $price * $quantity,
