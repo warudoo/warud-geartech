@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mb-8 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
             <p class="eyebrow">Admin Inventory</p>
-            <h1 class="page-title">Product Management</h1>
-            <p class="mt-2 max-w-2xl text-sm text-slate-600">Search by product name, filter by category, update stock inline, and deactivate products without losing historical order records.</p>
+            <h1 class="page-title">Manajemen Produk</h1>
+            <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Kelola katalog, stok, dan status aktif produk dari halaman yang lebih lega dan lebih mudah dipindai saat operasional.</p>
         </div>
-        <a href="{{ route('admin.products.create') }}" class="btn-primary">New Product</a>
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ route('admin.categories.index') }}" class="btn-secondary">Lihat Kategori</a>
+            <a href="{{ route('admin.products.create') }}" class="btn-primary">Produk Baru</a>
+        </div>
     </section>
 
-    <section class="mb-6 panel">
-        <form method="GET" action="{{ route('admin.products.index') }}" class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_auto]">
+    <section class="mb-6 admin-toolbar">
+        <form method="GET" action="{{ route('admin.products.index') }}" class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_240px_auto]">
             <div>
                 <label for="search" class="form-label">Search</label>
                 <input id="search" type="text" name="search" value="{{ request('search') }}" placeholder="Search name, SKU, or brand" class="form-input">
@@ -25,14 +28,14 @@
                     @endforeach
                 </select>
             </div>
-            <div class="flex gap-3 lg:self-end">
+            <div class="flex flex-wrap gap-3 xl:self-end">
                 <button type="submit" class="btn-primary">Apply</button>
                 <a href="{{ route('admin.products.index') }}" class="btn-secondary">Reset</a>
             </div>
         </form>
     </section>
 
-    <div class="panel overflow-hidden">
+    <div class="admin-shell overflow-hidden">
         <div class="table-shell">
             <table class="min-w-full text-sm">
                 <thead>
@@ -66,7 +69,7 @@
                             <td>{{ $product->brand }}</td>
                             <td>Rp {{ number_format((float) $product->price, 0, ',', '.') }}</td>
                             <td>
-                                <form method="POST" action="{{ route('admin.products.stock.update', $product) }}" class="flex items-center gap-2">
+                                <form method="POST" action="{{ route('admin.products.stock.update', $product) }}" class="flex flex-wrap items-center gap-2">
                                     @csrf
                                     @method('PATCH')
                                     <input type="number" name="stock" min="0" value="{{ $product->stock }}" class="w-24 rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-700 outline-none focus:border-red-500/50">
@@ -84,7 +87,7 @@
                                 </div>
                             </td>
                             <td class="text-right">
-                                <div class="flex justify-end gap-2">
+                                <div class="flex flex-wrap justify-end gap-2">
                                     <form method="POST" action="{{ route('admin.products.status.update', $product) }}">
                                         @csrf
                                         @method('PATCH')
