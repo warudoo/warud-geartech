@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->role === UserRole::ADMIN;
     }
+
+    public function isBuyer(): bool
+    {
+        return $this->role === UserRole::USER;
+    }
 }

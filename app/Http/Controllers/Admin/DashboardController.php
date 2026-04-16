@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
@@ -19,9 +20,16 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard', [
             'summary' => $this->reportService->summary(),
-            'totalUsers' => User::query()->count(),
+            'totalBuyers' => User::query()->where('role', UserRole::USER)->count(),
             'totalProducts' => Product::query()->count(),
-            'recentOrders' => Order::query()->with('user')->latest()->take(6)->get(),
+            'activeProducts' => Product::query()->where('is_active', true)->count(),
+            'recentOrders' => Order::query()->with('user')->latest()->take(5)->get(),
+            'lowStockProducts' => Product::query()
+                ->with('category')
+                ->where('stock', '<=', 5)
+                ->orderBy('stock')
+                ->take(5)
+                ->get(),
         ]);
     }
 }
