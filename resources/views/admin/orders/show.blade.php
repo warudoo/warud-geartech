@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
             <p class="eyebrow">Admin Fulfillment</p>
             <h1 class="page-title">{{ $order->order_number }}</h1>
@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <form method="POST" action="{{ route('admin.orders.update', $order) }}" class="panel flex flex-col gap-3 sm:flex-row sm:items-end">
+        <form method="POST" action="{{ route('admin.orders.update', $order) }}" class="admin-toolbar flex flex-col gap-3 sm:flex-row sm:items-end">
             @csrf
             @method('PATCH')
             <div>
@@ -28,10 +28,10 @@
         </form>
     </section>
 
-    <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+    <div class="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
         <div class="space-y-4">
             @foreach($order->items as $item)
-                <article class="panel flex items-center justify-between gap-4">
+                <article class="admin-shell flex items-center justify-between gap-4">
                     <div>
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500">{{ $item->sku }}</p>
                         <h2 class="mt-1 text-xl font-semibold text-slate-900">{{ $item->product_name }}</h2>
@@ -43,9 +43,9 @@
         </div>
 
         <aside class="space-y-4">
-            <div class="panel">
+            <div class="admin-shell">
                 <p class="eyebrow">Buyer</p>
-                <h2 class="mb-4 section-title">Order Meta</h2>
+                <h2 class="mb-4 admin-section-heading">Order Meta</h2>
                 <div class="space-y-3 text-sm leading-6 text-slate-600">
                     <p><span class="text-slate-500">Customer:</span> {{ $order->customer_name }}</p>
                     <p><span class="text-slate-500">Email:</span> {{ $order->email }}</p>
@@ -56,9 +56,9 @@
                 </div>
             </div>
 
-            <div class="panel">
+            <div class="admin-shell">
                 <p class="eyebrow">Payment Rail</p>
-                <h2 class="mb-4 section-title">Midtrans</h2>
+                <h2 class="mb-4 admin-section-heading">Midtrans</h2>
                 @php($payment = $order->payment->first())
                 <div class="space-y-3 text-sm text-slate-600">
                     <p><span class="text-slate-500">Transaction status:</span> {{ $payment?->transaction_status ?? 'N/A' }}</p>
