@@ -40,9 +40,24 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="sm:w-36">
                         <label for="quantity" class="mb-2 block text-xs uppercase tracking-[0.24em] text-zinc-500">Quantity</label>
-                        <input id="quantity" type="number" name="quantity" min="1" max="{{ max($product->stock, 1) }}" value="1" class="form-input">
+                        <input id="quantity" type="number" name="quantity" min="1" max="{{ max($product->stock, 1) }}" value="1" @disabled($product->stock < 1) class="form-input disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400">
                     </div>
-                    <button type="submit" class="btn-primary sm:mt-7">Add To Cart</button>
+                    <div class="flex-1 sm:mt-7">
+                        <button type="submit" @disabled($product->stock < 1) class="btn-primary w-full gap-2 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-500 disabled:shadow-none hover:-translate-y-0.5">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                                <path d="M3 3.75A.75.75 0 013.75 3h1.286a.75.75 0 01.727.568L6.16 5.25h9.59a.75.75 0 01.727.932l-1.2 4.8a.75.75 0 01-.727.568H7.15a.75.75 0 01-.727-.568L4.43 4.5H3.75A.75.75 0 013 3.75z" />
+                                <path d="M8 15.5a1.25 1.25 0 11-2.5 0A1.25 1.25 0 018 15.5zm7 0a1.25 1.25 0 11-2.5 0A1.25 1.25 0 0115 15.5z" />
+                            </svg>
+                            {{ $product->stock > 0 ? 'Add To Cart' : 'Stok Habis' }}
+                        </button>
+                        <p class="mt-3 text-sm text-slate-500">
+                            @if ($product->stock > 0)
+                                Setelah produk ditambahkan, notifikasi sukses akan muncul jelas di kanan atas layar.
+                            @else
+                                Produk ini sedang tidak tersedia. Silakan pilih item lain atau tunggu restock.
+                            @endif
+                        </p>
+                    </div>
                 </form>
             @else
                 <div class="panel-muted p-5 text-sm text-slate-600">

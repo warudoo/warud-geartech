@@ -30,7 +30,7 @@
     }
 
     a, button {
-        @apply transition-colors duration-200;
+        @apply transition-all duration-200;
     }
 }
 
@@ -59,7 +59,7 @@
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center rounded-2xl border border-red-600 bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-red-200 hover:bg-red-700;
+        @apply inline-flex items-center justify-center rounded-2xl border border-red-600 bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-red-200 hover:border-red-700 hover:bg-red-700 hover:shadow-md hover:shadow-red-200/80;
     }
 
     .btn-secondary {
