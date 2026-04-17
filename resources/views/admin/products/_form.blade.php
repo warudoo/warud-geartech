@@ -24,9 +24,24 @@
         <input id="stock" type="number" min="0" name="stock" value="{{ old('stock', $product->stock ?? 0) }}" class="form-input" required>
     </div>
 </div>
-<div>
-    <label for="featured_image" class="form-label">Featured Image</label>
-    <input id="featured_image" type="url" name="featured_image" value="{{ old('featured_image', $product->featured_image ?? $product->image_url) }}" class="form-input">
+<div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <div>
+        <label for="featured_image" class="form-label">Featured Image</label>
+        <input id="featured_image" type="file" name="featured_image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="form-input file:mr-4 file:rounded-xl file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100">
+        <p class="mt-2 text-sm text-slate-500">Upload JPG, JPEG, PNG, atau WEBP. Maksimal 3 MB. Jika Anda mengganti gambar saat edit, file lama akan ditimpa dengan gambar baru.</p>
+        @error('featured_image')
+            <p class="mt-2 text-sm font-medium text-rose-600">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="panel-muted overflow-hidden p-4">
+        <p class="form-label mb-3">Preview</p>
+        <div class="aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <img src="{{ $product->display_image_url }}" alt="{{ $product->name ?: 'Product preview' }}" class="h-full w-full object-cover">
+        </div>
+        <p class="mt-3 text-sm text-slate-500">
+            {{ $product->exists ? 'Gambar utama yang aktif saat ini untuk produk ini.' : 'Produk baru yang belum memiliki gambar akan memakai placeholder aman.' }}
+        </p>
+    </div>
 </div>
 <div>
     <label for="description" class="form-label">Description</label>
