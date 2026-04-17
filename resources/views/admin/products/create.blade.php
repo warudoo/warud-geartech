@@ -9,7 +9,7 @@
         </div>
 
         <div class="admin-shell">
-            <form method="POST" action="{{ route('admin.products.store') }}" class="space-y-6">
+            <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @include('admin.products._form')
                 <div class="flex flex-wrap gap-3">

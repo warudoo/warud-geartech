@@ -1,18 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <section class="mb-6">
         <div>
             <p class="eyebrow">Admin Console</p>
             <h1 class="page-title">Dashboard Operasional</h1>
             <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
                 Pantau order terbaru, kondisi stok, dan ringkasan performa toko dari satu workspace yang lebih rapi untuk operasional harian Warud Geartech.
             </p>
-        </div>
-        <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.products.index') }}" class="btn-secondary">Kelola Produk</a>
-            <a href="{{ route('admin.categories.index') }}" class="btn-secondary">Kelola Kategori</a>
-            <a href="{{ route('admin.orders.index') }}" class="btn-primary">Kelola Order</a>
         </div>
     </section>
 
@@ -71,34 +66,7 @@
             </div>
         </div>
 
-        <div class="space-y-6">
-            <div class="admin-shell">
-                <p class="eyebrow">Quick Actions</p>
-                <h2 class="mb-5 admin-section-heading">Operasional Cepat</h2>
-                <div class="grid gap-4 md:grid-cols-2">
-                    <a href="{{ route('admin.categories.index') }}" class="admin-list-card">
-                        <p class="eyebrow">Catalog</p>
-                        <p class="mt-2 text-xl font-semibold text-slate-900">Categories</p>
-                        <p class="mt-2 text-sm text-slate-600">Rapikan struktur kategori katalog tanpa keluar dari workspace admin.</p>
-                    </a>
-                    <a href="{{ route('admin.products.index') }}" class="admin-list-card">
-                        <p class="eyebrow">Inventory</p>
-                        <p class="mt-2 text-xl font-semibold text-slate-900">Products</p>
-                        <p class="mt-2 text-sm text-slate-600">Perbarui stok, harga, dan status aktif produk dengan lebih cepat.</p>
-                    </a>
-                    <a href="{{ route('admin.orders.index') }}" class="admin-list-card">
-                        <p class="eyebrow">Fulfillment</p>
-                        <p class="mt-2 text-xl font-semibold text-slate-900">Orders</p>
-                        <p class="mt-2 text-sm text-slate-600">Dorong order paid ke processing, shipped, sampai completed.</p>
-                    </a>
-                    <a href="{{ route('admin.reports.index') }}" class="admin-list-card">
-                        <p class="eyebrow">Reporting</p>
-                        <p class="mt-2 text-xl font-semibold text-slate-900">Sales Reports</p>
-                        <p class="mt-2 text-sm text-slate-600">Pantau revenue, AOV, dan indikator stok rendah.</p>
-                    </a>
-                </div>
-            </div>
-
+        <div>
             <div class="admin-shell">
                 <div class="mb-5 flex items-end justify-between gap-3">
                     <div>

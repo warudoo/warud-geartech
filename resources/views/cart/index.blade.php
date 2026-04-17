@@ -12,9 +12,7 @@
                 <article class="panel flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                     <div class="flex gap-4">
                         <div class="h-24 w-24 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-                            @if($item->product->featured_image || $item->product->image_url)
-                                <img src="{{ $item->product->featured_image ?: $item->product->image_url }}" alt="{{ $item->product->name }}" class="h-full w-full object-cover">
-                            @endif
+                            <img src="{{ $item->product->display_image_url }}" alt="{{ $item->product->name }}" class="h-full w-full object-cover">
                         </div>
                         <div>
                             <p class="eyebrow">{{ $item->product->category->name }}</p>
