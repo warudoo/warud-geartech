@@ -4,11 +4,7 @@
     <section class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
         <div class="panel overflow-hidden">
             <div class="aspect-[4/3] overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
-                @if($product->featured_image || $product->image_url)
-                    <img src="{{ $product->featured_image ?: $product->image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
-                @else
-                    <div class="h-full w-full bg-[radial-gradient(circle_at_top,_rgba(220,38,38,0.18),_transparent_55%),linear-gradient(180deg,_rgba(255,255,255,0.9),_rgba(241,245,249,1))]"></div>
-                @endif
+                <img src="{{ $product->display_image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
             </div>
         </div>
 

@@ -3,8 +3,12 @@
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 it('generates slug and sku automatically when an admin creates a product', function () {
+    Storage::fake('public');
+
     $admin = User::factory()->admin()->create();
     $category = Category::factory()->create([
         'name' => 'Keyboard',
@@ -19,7 +23,7 @@ it('generates slug and sku automatically when an admin creates a product', funct
             'description' => 'Keyboard kompetitif untuk scrim dan ranked.',
             'price' => 2499000,
             'stock' => 12,
-            'featured_image' => 'https://placehold.co/900x700/111827/E5E7EB?text=Keyboard',
+            'featured_image' => UploadedFile::fake()->image('keyboard.jpg'),
             'is_active' => 1,
             'featured' => 1,
         ])
@@ -32,6 +36,8 @@ it('generates slug and sku automatically when an admin creates a product', funct
 });
 
 it('adds a numeric suffix to duplicate slugs and keeps sku stable on update', function () {
+    Storage::fake('public');
+
     $admin = User::factory()->admin()->create();
     $category = Category::factory()->create([
         'name' => 'Mouse',
@@ -63,7 +69,7 @@ it('adds a numeric suffix to duplicate slugs and keeps sku stable on update', fu
             'description' => 'Mouse wireless ringan untuk claw grip.',
             'price' => 899000,
             'stock' => 10,
-            'featured_image' => 'https://placehold.co/900x700/111827/E5E7EB?text=Mouse',
+            'featured_image' => UploadedFile::fake()->image('mouse.jpg'),
             'is_active' => 1,
             'featured' => 0,
         ])
@@ -71,4 +77,46 @@ it('adds a numeric suffix to duplicate slugs and keeps sku stable on update', fu
 
     expect($product->fresh()->slug)->toBe('fantech-helios-xd5-pro')
         ->and($product->fresh()->sku)->toBe($originalSku);
+});
+
+it('replaces the old stored image when an admin uploads a new product image', function () {
+    Storage::fake('public');
+
+    $admin = User::factory()->admin()->create();
+    $category = Category::factory()->create([
+        'name' => 'Headset',
+        'slug' => 'headset-test',
+    ]);
+
+    $product = Product::factory()->create([
+        'category_id' => $category->id,
+        'featured_image' => UploadedFile::fake()->image('old-headset.jpg')->store('products', 'public'),
+        'image_url' => null,
+    ]);
+
+    $oldImagePath = $product->featured_image;
+
+    Storage::disk('public')->assertExists($oldImagePath);
+
+    $this->actingAs($admin)
+        ->put(route('admin.products.update', $product), [
+            'category_id' => $category->id,
+            'name' => 'HyperX Cloud Alpha Wireless',
+            'brand' => 'HyperX',
+            'description' => 'Headset wireless dengan baterai panjang untuk sesi ranked malam.',
+            'price' => 1799000,
+            'stock' => 8,
+            'featured_image' => UploadedFile::fake()->image('new-headset.webp'),
+            'is_active' => 1,
+            'featured' => 0,
+        ])
+        ->assertRedirect(route('admin.products.index'));
+
+    $product->refresh();
+
+    expect($product->featured_image)->not->toBe($oldImagePath)
+        ->and($product->image_url)->toBe($product->featured_image);
+
+    Storage::disk('public')->assertMissing($oldImagePath);
+    Storage::disk('public')->assertExists($product->featured_image);
 });

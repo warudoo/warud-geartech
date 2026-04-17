@@ -55,9 +55,7 @@
                             <td>
                                 <div class="flex items-center gap-3">
                                     <div class="h-14 w-14 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-                                        @if($product->featured_image || $product->image_url)
-                                            <img src="{{ $product->featured_image ?: $product->image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
-                                        @endif
+                                        <img src="{{ $product->display_image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
                                     </div>
                                     <div>
                                         <p class="font-semibold text-slate-900">{{ $product->name }}</p>

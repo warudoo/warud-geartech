@@ -10,6 +10,8 @@ use App\Http\Requests\Admin\UpdateProductStockRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -43,12 +45,17 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
 
-        $attributes = $request->validated();
-        $attributes['image_url'] = $attributes['featured_image'] ?? null;
+        $attributes = $request->safe()->except('featured_image');
+        $attributes = $this->storeFeaturedImage($attributes, $request->file('featured_image'));
 
         Product::query()->create($attributes);
 
-        return redirect()->route('admin.products.index')->with('status', 'Product created.');
+        return redirect()->route('admin.products.index')->with('toast', [
+            'tone' => 'success',
+            'title' => 'Produk berhasil dibuat',
+            'message' => 'Data produk baru sudah tersimpan dan gambar utamanya siap dipakai.',
+            'timeout' => 4500,
+        ]);
     }
 
     public function edit(Product $product)
@@ -65,12 +72,21 @@ class ProductController extends Controller
     {
         $this->authorize('update', $product);
 
-        $attributes = $request->validated();
-        $attributes['image_url'] = $attributes['featured_image'] ?? null;
+        $attributes = $request->safe()->except('featured_image');
+
+        if ($request->hasFile('featured_image')) {
+            $this->deleteFeaturedImage($product);
+            $attributes = $this->storeFeaturedImage($attributes, $request->file('featured_image'));
+        }
 
         $product->update($attributes);
 
-        return redirect()->route('admin.products.index')->with('status', 'Product updated.');
+        return redirect()->route('admin.products.index')->with('toast', [
+            'tone' => 'success',
+            'title' => 'Produk berhasil diperbarui',
+            'message' => 'Perubahan produk tersimpan, termasuk gambar utama jika tadi diganti.',
+            'timeout' => 4500,
+        ]);
     }
 
     public function updateStock(UpdateProductStockRequest $request, Product $product)
@@ -109,8 +125,32 @@ class ProductController extends Controller
                 ->with('status', 'Product has past orders, so it was deactivated instead of deleted.');
         }
 
+        $this->deleteFeaturedImage($product);
         $product->delete();
 
         return redirect()->route('admin.products.index', request()->query())->with('status', 'Product deleted.');
+    }
+
+    private function storeFeaturedImage(array $attributes, ?UploadedFile $image): array
+    {
+        if (! $image) {
+            return $attributes;
+        }
+
+        $path = $image->store('products', 'public');
+
+        $attributes['featured_image'] = $path;
+        $attributes['image_url'] = $path;
+
+        return $attributes;
+    }
+
+    private function deleteFeaturedImage(Product $product): void
+    {
+        if (! $product->hasStoredFeaturedImage()) {
+            return;
+        }
+
+        Storage::disk('public')->delete($product->featured_image);
     }
 }
