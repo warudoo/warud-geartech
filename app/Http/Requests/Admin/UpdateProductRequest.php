@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0.01'],
             'stock' => ['required', 'integer', 'min:0'],
-            'featured_image' => ['nullable', 'url', 'max:2048'],
+            'featured_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
             'is_active' => ['required', 'boolean'],
             'featured' => ['required', 'boolean'],
         ];
