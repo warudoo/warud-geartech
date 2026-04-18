@@ -10,9 +10,9 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->admin()->create([
-            'name' => 'Admin Warud',
-            'email' => 'admin@warudgeartech.com',
-            'password' => 'password',
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => 'admin',
             'phone' => '0812-9000-0001',
             'address' => 'Warud Geartech HQ, Jl. Pahlawan No. 18, Surabaya, Jawa Timur',
         ]);

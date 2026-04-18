@@ -156,3 +156,11 @@
         @apply rounded-[1.35rem] border border-slate-200 bg-slate-50/70 p-4 transition hover:border-red-200 hover:bg-white;
     }
 }
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

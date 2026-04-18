@@ -20,6 +20,7 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate --seed
 npm run build
+php artisan storage:link
 php artisan serve
 ```
 
@@ -42,7 +43,9 @@ MIDTRANS_IS_PRODUCTION=false
 ## Seeded Accounts
 
 - Admin: `admin@geartech.test` / `password`
+- Admin 2: `admin@gmail.com` / `admin`
 - User: `user@geartech.test` / `password`
+- User 2: `user@gmail.com` / `user1234`
 
 ## Verification
 
