@@ -6,7 +6,7 @@
             <p class="eyebrow">Admin Console</p>
             <h1 class="page-title">Dashboard Operasional</h1>
             <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-                Pantau order terbaru, kondisi stok, dan ringkasan performa toko dari satu workspace yang lebih rapi untuk operasional harian Warud Geartech.
+                Monitring order terbaru, kondisi stok, dan ringkasan performa toko dari satu workspace yang lebih rapi untuk operasional harian Warud Geartech.
             </p>
         </div>
     </section>
