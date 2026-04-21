@@ -7,7 +7,9 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
 
-it('updates an order to paid and deducts stock only once for idempotent callbacks', function () {
+
+
+it('updates an orderr to paid and deducts stock only once for idempotent callbacks', function () {
     config()->set('services.midtrans.server_key', 'server-key');
 
     $user = User::factory()->create();
