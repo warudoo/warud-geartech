@@ -4,7 +4,7 @@
     <section class="mx-auto w-full max-w-4xl">
         <div class="mb-6">
             <p class="eyebrow">Admin Catalog</p>
-            <h1 class="page-title">Tambah Kategori</h1>
+            <h1 class="page-title">Add Category</h1>
             <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Buat kategori baru dengan layout form yang lebih proporsional untuk input katalog.</p>
         </div>
 

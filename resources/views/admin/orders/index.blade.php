@@ -10,7 +10,7 @@
         <form method="GET" action="{{ route('admin.orders.index') }}" class="admin-toolbar flex flex-col gap-4 xl:flex-row xl:items-end">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search order/customer/email" class="form-input xl:w-80">
             <select name="status" class="form-select xl:w-56">
-                <option value="">All statuses</option>
+                <option value="">All status</option>
                 @foreach(\App\Enums\OrderStatus::cases() as $status)
                     <option value="{{ $status->value }}" @selected(request('status') === $status->value)>{{ $status->label() }}</option>
                 @endforeach
