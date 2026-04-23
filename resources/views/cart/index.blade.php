@@ -6,73 +6,138 @@
         <h1 class="page-title">Your Cart</h1>
     </section>
 
-    <div class="grid gap-8 lg:grid-cols-[1.25fr_0.75fr]">
+    <div x-data="cartSelection({
+        items: {{ $cartItems->map(
+            fn($i) => [
+                'id' => (int) $i->id,
+                'price' => (int) $i->product->price,
+                'qty' => (int) $i->quantity,
+            ],
+        ) }}
+    })" class="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
+
+        {{-- LEFT --}}
         <div class="space-y-4">
+
+            @if ($cartItems->isNotEmpty())
+                <label class="flex items-center gap-2 panel">
+                    <input type="checkbox" @change="selected = $event.target.checked ? items.map(i => i.id) : []">
+                    <span class="text-sm text-slate-600">Select All</span>
+                </label>
+            @endif
+
             @forelse($cartItems as $item)
-                <article class="panel flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                    <div class="flex gap-4">
-                        <div class="h-24 w-24 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-                            <img src="{{ $item->product->display_image_url }}" alt="{{ $item->product->name }}" class="h-full w-full object-cover">
-                        </div>
-                        <div>
-                            <p class="eyebrow">{{ $item->product->category->name }}</p>
-                            <h2 class="text-xl font-semibold text-slate-900">{{ $item->product->name }}</h2>
-                            <p class="mt-2 text-sm text-slate-500">{{ $item->product->brand }} • {{ $item->product->sku }}</p>
-                            <p class="mt-3 font-display text-2xl text-red-600">
-                                Rp {{ number_format((float) $item->product->price, 0, ',', '.') }}
-                            </p>
-                        </div>
-                    </div>
+                <article class="panel p-4" :class="selected.includes({{ (int) $item->id }}) ? 'ring-2 ring-red-500' : ''">
 
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
-                        <form method="POST" action="{{ route('cart.update', $item) }}" class="flex items-end gap-3">
-                            @csrf
-                            @method('PATCH')
-                            <div>
-                                <label class="form-label">Qty</label>
-                                <input type="number" name="quantity" min="1" max="{{ max($item->product->stock, 1) }}" value="{{ $item->quantity }}" class="form-input w-24">
+                    {{-- GRID WRAPPER --}}
+                    <div class="grid gap-4 lg:grid-cols-[1fr_auto]">
+
+                        {{-- LEFT CONTENT --}}
+                        <div class="flex gap-4 min-w-0">
+
+                            <input type="checkbox" :value="{{ (int) $item->id }}" x-model.number="selected"
+                                class="self-center h-5 w-5 shrink-0">
+
+                            <div class="h-24 w-24 shrink-0 overflow-hidden rounded-xl border bg-slate-100">
+                                <img src="{{ $item->product->display_image_url }}" class="h-full w-full object-cover">
                             </div>
-                            <button type="submit" class="btn-secondary">Update</button>
-                        </form>
 
-                        <form method="POST" action="{{ route('cart.destroy', $item) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-danger">Remove</button>
-                        </form>
+                            <div class="min-w-0">
+                                <p class="eyebrow">{{ $item->product->category->name }}</p>
+
+                                <h2 class="text-lg font-semibold leading-tight line-clamp-2">
+                                    {{ $item->product->name }}
+                                </h2>
+
+                                <p class="text-sm text-slate-500 truncate">
+                                    {{ $item->product->brand }} • {{ $item->product->sku }}
+                                </p>
+
+                                <p class="mt-2 text-xl text-red-600 font-display">
+                                    Rp {{ number_format($item->product->price, 0, ',', '.') }}
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- RIGHT ACTION --}}
+                        <div class="flex flex-row lg:flex-col gap-3 justify-between lg:justify-start">
+
+                            <form method="POST" action="{{ route('cart.update', $item) }}" class="flex items-center gap-5">
+                                @csrf @method('PATCH')
+                                <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                    class="form-input w-16 text-center sm:ml-2">
+                                <button class="btn-secondary">Update</button>
+                            </form>
+
+                            <form method="POST" action="{{ route('cart.destroy', $item) }}" class="w-auto lg:w-full">
+                                @csrf @method('DELETE')
+                                <button class="btn-danger w-full">
+                                    Remove
+                                </button>
+                            </form>
+
+                        </div>
+
                     </div>
                 </article>
             @empty
-                <div class="panel text-slate-600">
-                    Your cart is empty. Add products from the catalog before checking out.
-                </div>
+                <div class="panel">Cart kosong</div>
             @endforelse
         </div>
 
-        <aside class="panel h-fit space-y-5">
+        {{-- RIGHT SUMMARY --}}
+        <aside class="panel space-y-5 h-fit">
+            <h2 class="section-title">Summary</h2>
+
             <div>
-                <p class="eyebrow">Summary</p>
-                <h2 class="section-title">Checkout Summary</h2>
-            </div>
-            <div class="panel-muted p-5">
-                <div class="flex items-center justify-between text-sm text-slate-500">
+                <div class="flex justify-between text-sm">
                     <span>Items</span>
-                    <span>{{ $cartItems->sum('quantity') }}</span>
+                    <span x-text="totalQty"></span>
                 </div>
-                <div class="mt-3 flex items-center justify-between text-lg font-semibold text-slate-900">
+
+                <div class="flex justify-between mt-2 text-lg font-semibold">
                     <span>Subtotal</span>
-                    <span class="font-display text-2xl text-red-600">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                    <span x-text="'Rp ' + subtotal.toLocaleString('id-ID')"></span>
                 </div>
             </div>
-            <p class="text-sm leading-6 text-slate-600">
-                Stock is not reserved in the cart. Final stock validation happens during checkout, and stock is only deducted after a successful Midtrans callback confirms payment.
-            </p>
-            <div class="flex flex-col gap-3">
-                <a href="{{ route('products.index') }}" class="btn-secondary justify-center">Continue Shopping</a>
-                @if($cartItems->isNotEmpty())
-                    <a href="{{ route('checkout.show') }}" class="btn-primary justify-center">Proceed To Checkout</a>
-                @endif
-            </div>
+
+            <a href="{{ route('products.index') }}" class="btn-secondary w-full">
+                Continue Shopping
+            </a>
+
+            @if ($cartItems->isNotEmpty())
+                <form method="GET" action="{{ route('checkout.show') }}">
+
+                    <template x-for="id in selected" :key="id">
+                        <input type="hidden" name="cart_item_ids[]" :value="id">
+                    </template>
+
+                    <button type="submit" class="btn-primary w-full" :disabled="selected.length === 0">
+                        Proceed To Checkout
+                    </button>
+                </form>
+            @endif
         </aside>
     </div>
+
+    <script>
+        function cartSelection(data) {
+            return {
+                items: data.items,
+                selected: [],
+
+                get selectedItems() {
+                    return this.items.filter(i => this.selected.includes(i.id))
+                },
+
+                get totalQty() {
+                    return this.selectedItems.reduce((s, i) => s + i.qty, 0)
+                },
+
+                get subtotal() {
+                    return this.selectedItems.reduce((s, i) => s + (i.qty * i.price), 0)
+                }
+            }
+        }
+    </script>
 @endsection

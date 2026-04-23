@@ -21,8 +21,8 @@ class CartItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function lineTotal(): float
+    public function lineTotal(): int
     {
-        return (float) $this->product->price * $this->quantity;
+        return $this->quantity * $this->product->price;
     }
 }

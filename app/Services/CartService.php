@@ -11,6 +11,26 @@ use Illuminate\Validation\ValidationException;
 
 class CartService
 {
+    public function getSelectedItems($user, array $ids)
+    {
+        return CartItem::whereIn('id', $ids)
+            ->where('user_id', $user->id)
+            ->with('product')
+            ->get();
+    }
+    public function removeSelected($user, array $ids)
+    {
+        return CartItem::whereIn('id', $ids)
+            ->where('user_id', $user->id)
+            ->delete();
+    }
+    public function subtotalFromItems($items)
+    {
+        return $items->sum(
+            fn($item) =>
+            $item->quantity * $item->product->price
+        );
+    }
     public function items(User $user): Collection
     {
         return $user->cartItems()->with('product.category')->latest()->get();
@@ -23,7 +43,7 @@ class CartService
 
     public function subtotal(User $user): float
     {
-        return $this->items($user)->sum(fn (CartItem $item) => $item->lineTotal());
+        return $this->items($user)->sum(fn(CartItem $item) => $item->lineTotal());
     }
 
     public function add(User $user, Product $product, int $quantity): CartItem

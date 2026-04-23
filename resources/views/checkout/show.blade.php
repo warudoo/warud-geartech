@@ -60,13 +60,6 @@
                     <label for="notes" class="form-label">Order Notes</label>
                     <textarea id="notes" name="notes" rows="3" class="form-textarea">{{ old('notes') }}</textarea>
                 </div>
-
-                <div class="panel-muted space-y-2 p-5 text-sm text-slate-600">
-                    <p>Checkout creates an order in <strong class="text-slate-900">pending_payment</strong>.</p>
-                    <p>Midtrans callback is the payment source of truth.</p>
-                    <p>Stock is deducted only once when the order becomes <strong class="text-slate-900">paid</strong>.</p>
-                </div>
-
                 <button type="submit" class="btn-primary w-full justify-center">Create Order And Pay</button>
             </form>
         </div>

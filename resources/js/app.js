@@ -1,3 +1,7 @@
+import Alpine from 'alpinejs'
+window.Alpine = Alpine
+Alpine.start()
+
 document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('.nav-toggle');
     const panel = document.querySelector('.nav-panel');
@@ -33,3 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+

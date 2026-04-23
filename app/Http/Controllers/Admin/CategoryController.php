@@ -6,16 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Category::class);
 
-        return view('admin.categories.index', [
-            'categories' => Category::query()->withCount('products')->latest()->paginate(10),
-        ]);
+        $categories = Category::query()
+            ->withCount('products')
+            ->when(
+                $request->filled('search'),
+                fn($query) => $query->where('name', 'like', '%' . $request->search . '%')
+            )
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create()

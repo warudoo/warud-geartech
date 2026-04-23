@@ -28,7 +28,9 @@
                 </div>
             </div>
 
-            <p class="leading-7 text-slate-600">{{ $product->description }}</p>
+            <div class="max-h-40 overflow-y-auto overflow-x-hidden wrap-break-word pr-2 text-sm leading-6 text-slate-600">
+                {!! nl2br(e($product->description)) !!}
+            </div>
 
             @auth
                 @if (auth()->user()->isBuyer())

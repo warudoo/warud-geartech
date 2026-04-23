@@ -16,7 +16,7 @@
 @endphp
 <body class="min-h-screen text-slate-800">
     <div class="min-h-screen bg-grid">
-        <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+        <header class="sticky top-0 z-40 border-b w-full sm:w-full border-slate-200/80 bg-white/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
                 <a href="{{ $brandHome }}" class="flex items-center gap-3">
                     <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-red-200 bg-red-50 shadow-glow">

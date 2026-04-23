@@ -15,7 +15,7 @@
                     <option value="{{ $status->value }}" @selected(request('status') === $status->value)>{{ $status->label() }}</option>
                 @endforeach
             </select>
-            <div class="flex flex-wrap gap-3">
+            <div class="flex items-center gap-3">
                 <button type="submit" class="btn-primary justify-center">Filter</button>
                 <a href="{{ route('admin.orders.index') }}" class="btn-secondary">Reset</a>
             </div>

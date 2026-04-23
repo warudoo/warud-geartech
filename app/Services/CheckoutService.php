@@ -15,23 +15,30 @@ class CheckoutService
 {
     public function __construct(
         protected CartService $cartService,
-    ) {
-    }
+    ) {}
 
-    public function createPendingOrder(User $user, array $payload): Order
+    /**
+     * @param  User  $user
+     * @param  array $payload
+     * @param  array|null $cartItemIds
+     */
+    public function createPendingOrder(User $user, array $payload, ?array $cartItemIds = null): Order
     {
-        $items = $this->cartService->items($user);
+        $items = $cartItemIds
+            ? $this->cartService->getSelectedItems($user, $cartItemIds)
+            : $this->cartService->items($user);
 
         if ($items->isEmpty()) {
             throw ValidationException::withMessages([
-                'cart' => 'Your cart is empty.',
+                'cart' => 'No valid items selected for checkout.',
             ]);
         }
 
         $this->validateCartAgainstStock($items);
 
-        return DB::transaction(function () use ($user, $payload, $items) {
-            $subtotal = $items->sum(fn ($item) => $item->lineTotal());
+        return DB::transaction(function () use ($user, $payload, $items, $cartItemIds) {
+
+            $subtotal = $items->sum(fn($item) => $item->lineTotal());
 
             $order = Order::query()->create([
                 'user_id' => $user->id,
@@ -47,7 +54,7 @@ class CheckoutService
                 'payment_provider' => 'midtrans',
             ]);
 
-            $items->each(function ($item) use ($order): void {
+            foreach ($items as $item) {
                 OrderItem::query()->create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
@@ -55,11 +62,15 @@ class CheckoutService
                     'sku' => $item->product->sku,
                     'unit_price' => $item->product->price,
                     'quantity' => $item->quantity,
-                    'line_total' => $item->lineTotal(),
+                    'line_total' => $item->product->price * $item->quantity,
                 ]);
-            });
+            }
 
-            $this->cartService->clear($user);
+            if ($cartItemIds) {
+                $this->cartService->removeSelected($user, $cartItemIds);
+            } else {
+                $this->cartService->clear($user);
+            }
 
             return $order->load('items.product', 'user');
         });
@@ -89,7 +100,7 @@ class CheckoutService
     protected function generateOrderNumber(): string
     {
         do {
-            $candidate = 'ORD-'.now()->format('YmdHis').'-'.Str::upper(Str::random(6));
+            $candidate = 'ORD-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6));
         } while (Order::query()->where('order_number', $candidate)->exists());
 
         return $candidate;
