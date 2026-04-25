@@ -27,7 +27,18 @@
             @endif
 
             @forelse($cartItems as $item)
-                <article class="panel p-4" :class="selected.includes({{ (int) $item->id }}) ? 'ring-2 ring-red-500' : ''">
+                <article class="panel p-4 cursor-pointer hover:bg-slate-50"
+                    :class="selected.includes({{ (int) $item->id }}) ? 'ring-2 ring-red-500' : ''"
+                    @click="
+        if (!$event.target.closest('button, input, form')) {
+            let id = {{ (int) $item->id }};
+            if (selected.includes(id)) {
+                selected = selected.filter(i => i !== id);
+            } else {
+                selected.push(id);
+            }
+        }
+    ">
 
                     {{-- GRID WRAPPER --}}
                     <div class="grid gap-4 lg:grid-cols-[1fr_auto]">
@@ -35,7 +46,7 @@
                         {{-- LEFT CONTENT --}}
                         <div class="flex gap-4 min-w-0">
 
-                            <input type="checkbox" :value="{{ (int) $item->id }}" x-model.number="selected"
+                            <input type="checkbox" :value="{{ (int) $item->id }}" x-model.number="selected" @click.stop
                                 class="self-center h-5 w-5 shrink-0">
 
                             <div class="h-24 w-24 shrink-0 overflow-hidden rounded-xl border bg-slate-100">
@@ -62,16 +73,23 @@
                         {{-- RIGHT ACTION --}}
                         <div class="flex flex-row lg:flex-col gap-3 justify-between lg:justify-start">
 
-                            <form method="POST" action="{{ route('cart.update', $item) }}" class="flex items-center gap-5">
+                            <form method="POST" action="{{ route('cart.update', $item) }}" class="flex items-center gap-5"
+                                @click.stop>
                                 @csrf @method('PATCH')
+
                                 <input type="number" name="quantity" value="{{ $item->quantity }}"
                                     class="form-input w-16 text-center sm:ml-2">
-                                <button class="btn-secondary">Update</button>
+
+                                <button type="submit" class="btn-secondary">
+                                    Update
+                                </button>
                             </form>
 
-                            <form method="POST" action="{{ route('cart.destroy', $item) }}" class="w-auto lg:w-full">
+                            <form method="POST" action="{{ route('cart.destroy', $item) }}" class="w-auto lg:w-full"
+                                @click.stop>
                                 @csrf @method('DELETE')
-                                <button class="btn-danger w-full">
+
+                                <button type="submit" class="btn-danger w-full">
                                     Remove
                                 </button>
                             </form>

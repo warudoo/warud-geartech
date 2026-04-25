@@ -58,6 +58,10 @@ class CheckoutController extends Controller
                 ->with('error', 'Order created, but Midtrans payment initialization failed. Configure the gateway and retry payment from the order detail page.');
         }
 
+        if (!$request->filled('cart_item_ids')) {
+            return back()->withErrors('No items selected for checkout.');
+        }
+
         return redirect()->route('orders.show', $order->order_number);
     }
 }
