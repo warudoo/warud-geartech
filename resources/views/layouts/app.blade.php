@@ -29,10 +29,10 @@
                     {{-- BRAND --}}
                     <a href="{{ $brandHome }}" class="flex items-center gap-3">
                         <div
-                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-red-200 bg-red-50">
-                            <span class="font-bold text-red-700">GT</span>
+                            class="flex h-10 w-10 p-6 items-center justify-center rounded-xl border border-red-200 bg-red-50">
+                            <span class="font-bold text-red-700">WGT</span>
                         </div>
-                        <div class="hidden sm:block">
+                        <div class="sm:block">
                             <p class="font-semibold text-slate-900">Warud Geartech</p>
                             <p class="text-xs text-slate-500">
                                 {{ $isAdminUser ? 'Admin Operations' : 'Gaming Peripheral Store' }}
@@ -75,6 +75,16 @@
         </main>
 
     </div>
+
+    @if (
+        !request()->routeIs('login') &&
+            !request()->routeIs('register') &&
+            !request()->routeIs('admin.*') &&
+            !request()->routeIs('cart.*') &&
+            !request()->routeIs('orders.*') &&
+            !request()->routeIs('checkout.*'))
+        <x-footer />
+    @endif
 </body>
 
 </html>

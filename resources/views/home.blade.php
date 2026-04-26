@@ -1,46 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="hero-grid mb-10">
-        <div class="panel relative overflow-hidden">
-            <div
-                class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(220,38,38,0.12),_transparent_50%),radial-gradient(circle_at_bottom_right,_rgba(248,250,252,0.92),_transparent_40%)]">
+    <section class="hero-grid mb-6 md:mb-10">
+        <div x-data="heroCarousel()" x-init="start()"
+            class="panel relative w-full md:w-[90%] lg:w-[78%] mx-auto overflow-hidden bg-transparent">
+
+            {{-- Slides --}}
+            <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[16/7]">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div x-show="active === index" x-transition:enter="transition ease-out duration-700"
+                        x-transition:enter-start="opacity-0 scale-105" x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-500"
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                        class="absolute inset-0">
+
+                        <img :src="slide" class="w-full h-full object-contain bg-black sm:object-cover"
+                            alt="Hero Image">
+                    </div>
+                </template>
             </div>
-            <div class="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
-                <div class="space-y-6">
-                    <p class="eyebrow">Laravel 13 Ecommerce Build</p>
-                    <h1 class="page-title max-w-3xl leading-tight">
-                        Clean ecommerce storefront with a focused shopping flow.
-                    </h1>
-                    <p class="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-                        Browse products, checkout through Midtrans, and manage inventory from a streamlined Laravel admin
-                        dashboard designed for daily operations.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="{{ route('products.index') }}" class="btn-primary">Browse Products</a>
-                        @auth
-                            <a href="{{ route('orders.index') }}" class="btn-secondary">Track Orders</a>
-                        @else
-                            <a href="{{ route('register') }}" class="btn-secondary">Create Account</a>
-                        @endauth
-                    </div>
-                </div>
-                <div class="grid gap-4">
-                    <div class="stat-card">
-                        <p class="eyebrow">Featured Products</p>
-                        <p class="font-display text-4xl text-red-600">{{ $featuredProducts->count() }}</p>
-                        <p class="text-sm text-slate-600">Highlighted items that are currently promoted on the storefront.
-                        </p>
-                    </div>
-                    <div class="stat-card">
-                        <p class="eyebrow">Categories</p>
-                        <p class="font-display text-4xl text-slate-900">{{ $categories->count() }}</p>
-                        <p class="text-sm text-slate-600">Structured catalog browsing with clean product grouping.</p>
-                    </div>
-                </div>
+
+            {{-- Overlay (aktif di semua device, tapi subtle di mobile) --}}
+            <div class="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent"></div>
+
+            {{-- Indicator --}}
+            <div class="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <button @click="active = index"
+                        :class="active === index ? 'bg-white w-5 md:w-6' : 'bg-white/50 w-2 md:w-3'"
+                        class="h-2 md:h-3 rounded-full transition-all duration-300">
+                    </button>
+                </template>
             </div>
+
         </div>
     </section>
+
+
 
     <section class="mb-10">
         <div class="mb-6 flex items-end justify-between gap-4">
@@ -72,7 +68,8 @@
                             <p class="text-base font-semibold text-slate-900">
                                 {{ $category->name }}
                             </p>
-                            <div class="h-20 overflow-y-auto overflow-x-hidden text-sm text-left leading-relaxed text-slate-600 pr-1 break-words no-scrollbar">
+                            <div
+                                class="h-20 overflow-y-auto overflow-x-hidden text-sm text-left leading-relaxed text-slate-600 pr-1 break-words no-scrollbar">
                                 {{ $category->description }}
                             </div>
                             <div class="mt-auto">
@@ -100,3 +97,26 @@
         </div>
     </section>
 @endsection
+
+<script>
+    function heroCarousel() {
+        return {
+            active: 0,
+            interval: null,
+            slides: [
+                '{{ asset('images/hero1.png') }}',
+                '{{ asset('images/hero2.png') }}'
+            ],
+
+            start() {
+                this.interval = setInterval(() => {
+                    this.next()
+                }, 7000)
+            },
+
+            next() {
+                this.active = (this.active + 1) % this.slides.length
+            }
+        }
+    }
+</script>
