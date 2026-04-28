@@ -5,15 +5,35 @@
         <div>
             <p class="eyebrow">Sales Intelligence</p>
             <h1 class="page-title">Ringkasan Laporan</h1>
-            <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Tinjau performa penjualan, order paid, dan tren harian dengan layout yang lebih padat dan mudah dipakai saat evaluasi operasional.</p>
+            <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Tinjau performa penjualan, order paid, dan tren harian
+                dengan layout yang lebih padat dan mudah dipakai saat evaluasi operasional.</p>
         </div>
-        <form method="GET" action="{{ route('admin.reports.index') }}" class="admin-toolbar flex flex-col gap-4 xl:flex-row xl:items-end">
-            <input type="date" name="from" value="{{ $from->toDateString() }}" class="form-input">
-            <input type="date" name="to" value="{{ $to->toDateString() }}" class="form-input">
-            <div class="flex flex-wrap gap-3">
-                <button type="submit" class="btn-primary justify-center">Apply Range</button>
-                <a href="{{ route('admin.reports.index') }}" class="btn-secondary">Reset</a>
+        <form method="GET" action="{{ route('admin.reports.index') }}"
+            class="admin-toolbar flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
+
+            {{-- DATE FROM --}}
+            <div class="flex flex-col w-full sm:w-auto">
+                <label class="text-xs text-slate-500 mb-1">From</label>
+                <input type="date" name="from" value="{{ $from->toDateString() }}" class="form-input w-full sm:w-auto">
             </div>
+
+            {{-- DATE TO --}}
+            <div class="flex flex-col w-full sm:w-auto">
+                <label class="text-xs text-slate-500 mb-1">To</label>
+                <input type="date" name="to" value="{{ $to->toDateString() }}" class="form-input w-full sm:w-auto">
+            </div>
+
+            {{-- ACTION --}}
+            <div class="flex gap-2 w-full sm:w-auto sm:ml-auto">
+                <button type="submit" class="btn-primary w-full sm:w-auto justify-center">
+                    Apply Range
+                </button>
+
+                <a href="{{ route('admin.reports.index') }}" class="btn-secondary w-full sm:w-auto text-center">
+                    Reset
+                </a>
+            </div>
+
         </form>
     </section>
 
@@ -37,18 +57,20 @@
     </section>
 
     <section class="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <div class="admin-shell">
+        <div class="admin-shell flex flex-col max-h-[420px]">
             <p class="eyebrow">Recent Paid Orders</p>
             <h2 class="mb-5 admin-section-heading">Revenue Feed</h2>
-            <div class="space-y-3">
+
+            <div class="space-y-3 overflow-y-auto pr-2">
                 @forelse($summary['recent_paid_orders'] as $order)
                     <div class="admin-list-card flex items-center justify-between gap-4">
                         <div>
-                            <p class="font-semibold text-slate-900">{{ $order->order_number }}</p>
+                            <p class="font-semibold text-slate-900 line-clamp-2">{{ $order->order_number }}</p>
                             <p class="text-sm text-slate-600">{{ $order->customer_name }}</p>
                         </div>
                         <div class="text-right">
-                            <p class="font-display text-xl text-red-600">Rp {{ number_format((float) $order->total, 0, ',', '.') }}</p>
+                            <p class="font-display text-xl text-red-600">Rp
+                                {{ number_format((float) $order->total, 0, ',', '.') }}</p>
                             <p class="text-sm text-slate-500">{{ $order->paid_at?->format('d M Y') }}</p>
                         </div>
                     </div>
@@ -58,17 +80,21 @@
             </div>
         </div>
 
-        <div class="admin-shell">
+        <div class="admin-shell flex flex-col max-h-[420px]">
             <p class="eyebrow">Daily Sales</p>
             <h2 class="mb-5 admin-section-heading">Trend Snapshot</h2>
-            <div class="space-y-3">
+
+            <div class="space-y-3 overflow-y-auto pr-2">
                 @forelse($summary['daily_sales'] as $day)
                     <div class="admin-list-card flex items-center justify-between gap-4">
                         <div>
-                            <p class="font-semibold text-slate-900">{{ \Illuminate\Support\Carbon::parse($day->paid_date)->format('d M Y') }}</p>
+                            <p class="font-semibold text-slate-900">
+                                {{ \Illuminate\Support\Carbon::parse($day->paid_date)->format('d M Y') }}
+                            </p>
                             <p class="text-sm text-slate-600">{{ $day->orders_count }} order(s)</p>
                         </div>
-                        <p class="font-display text-xl text-red-600">Rp {{ number_format((float) $day->revenue, 0, ',', '.') }}</p>
+                        <p class="font-display text-xl text-red-600">Rp
+                            {{ number_format((float) $day->revenue, 0, ',', '.') }}</p>
                     </div>
                 @empty
                     <div class="admin-list-card text-sm text-slate-600">No daily sales records in this range.</div>

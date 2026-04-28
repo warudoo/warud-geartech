@@ -1,108 +1,242 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <section class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+
         <div>
             <p class="eyebrow">Admin Inventory</p>
             <h1 class="page-title">Manajemen Produk</h1>
-            <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Kelola katalog, stok, dan status aktif produk dari halaman yang lebih lega dan lebih mudah dipindai saat operasional.</p>
+            <p class="mt-2 text-sm text-slate-600 max-w-xl">
+                Kelola katalog, stok, dan status produk dengan lebih efisien.
+            </p>
         </div>
-        <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.categories.index') }}" class="btn-secondary">Lihat Kategori</a>
-            <a href="{{ route('admin.products.create') }}" class="btn-primary">Produk Baru</a>
+
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <a href="{{ route('admin.categories.index') }}" class="btn-secondary w-full sm:w-auto text-center">
+                Lihat Kategori
+            </a>
+            <a href="{{ route('admin.products.create') }}" class="btn-primary w-full sm:w-auto text-center">
+                Tambah Produk
+            </a>
         </div>
+
     </section>
 
     <section class="mb-6 admin-toolbar">
-        <form method="GET" action="{{ route('admin.products.index') }}" class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_240px_auto]">
+        <form method="GET" action="{{ route('admin.products.index') }}"
+            class="flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_200px_auto] lg:items-end">
+
             <div>
-                <label for="search" class="form-label">Search</label>
-                <input id="search" type="text" name="search" value="{{ request('search') }}" placeholder="Search name, SKU, or brand" class="form-input">
+                <label class="form-label">Search</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="form-input w-full">
             </div>
+
             <div>
-                <label for="category" class="form-label">Category</label>
-                <select id="category" name="category" class="form-select">
-                    <option value="">All categories</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @selected((string) request('category') === (string) $category->id)>{{ $category->name }}</option>
+                <label class="form-label">Category</label>
+                <select name="category" class="form-select w-full">
+                    <option value="">All</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(request('category') == $category->id)>
+                            {{ $category->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
-            <div class="flex flex-wrap gap-3 xl:self-end">
-                <button type="submit" class="btn-primary">Apply</button>
-                <a href="{{ route('admin.products.index') }}" class="btn-secondary">Reset</a>
+
+            <div class="flex gap-2">
+                <button class="btn-primary w-full lg:w-auto">Apply</button>
+                <a href="{{ route('admin.products.index') }}" class="btn-secondary w-full lg:w-auto text-center">
+                    Reset
+                </a>
             </div>
+
         </form>
     </section>
 
-    <div class="admin-shell overflow-hidden">
+    {{-- Mobile View Card --}}
+    <div class="lg:hidden flex flex-col gap-4">
+
+        @foreach ($products as $product)
+            <div class="panel overflow-hidden flex flex-col">
+
+                {{-- IMAGE (FULL WIDTH, HERO STYLE) --}}
+                <div class="aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                    <img src="{{ $product->display_image_url }}" alt="{{ $product->name }}"
+                        class="h-full w-full object-cover">
+                </div>
+
+                {{-- CONTENT --}}
+                <div class="p-4 flex flex-col gap-3">
+
+                    {{-- TITLE --}}
+                    <div class="text-center">
+                        <h3 class="font-semibold text-base leading-tight line-clamp-2">
+                            {{ $product->name }}
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">
+                            {{ $product->brand }} • {{ $product->sku }}
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            {{ $product->category->name }}
+                        </p>
+                    </div>
+
+                    {{-- PRICE --}}
+                    <div class="text-center">
+                        <p class="text-xs text-slate-500">Price</p>
+                        <p class="text-lg font-semibold text-red-600">
+                            Rp {{ number_format($product->price, 0, ',', '.') }}
+                        </p>
+                    </div>
+
+                    {{-- INFO GRID --}}
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500">Brand</p>
+                            <p>{{ $product->brand }}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500">Stock</p>
+                            <p>{{ $product->stock }}</p>
+                        </div>
+                    </div>
+
+                    {{-- STOCK INPUT --}}
+                    <form method="POST" action="{{ route('admin.products.stock.update', $product) }}" class="flex gap-2">
+                        @csrf @method('PATCH')
+
+                        <input type="number" name="stock" value="{{ $product->stock }}" class="form-input">
+
+                        <button class="btn-secondary px-4 w-full">Save</button>
+                    </form>
+
+                    {{-- STATUS --}}
+                    <div class="flex justify-center gap-2 flex-wrap">
+                        <span class="badge w-full {{ $product->is_active ? 'badge-success' : 'badge-muted' }}">
+                            {{ $product->is_active ? 'Active' : 'Inactive' }}
+                        </span>
+
+                        @if ($product->featured)
+                            <span class="badge w-full badge-danger">Featured</span>
+                        @endif
+                    </div>
+
+                    {{-- ACTION --}}
+                    <div class="flex flex-col gap-2 mt-2">
+
+                        <form method="POST" action="{{ route('admin.products.status.update', $product) }}">
+                            @csrf @method('PATCH')
+                            <input type="hidden" name="is_active" value="{{ $product->is_active ? 0 : 1 }}">
+                            <button class="btn-secondary w-full">
+                                {{ $product->is_active ? 'Deactivate' : 'Activate' }}
+                            </button>
+                        </form>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <a href="{{ route('admin.products.edit', $product) }}"
+                                class="btn-secondary w-full text-center">
+                                Edit
+                            </a>
+
+                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}">
+                                @csrf @method('DELETE')
+                                <button class="btn-danger w-full">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        @endforeach
+
+    </div>
+
+    {{-- Desktop View Table --}}
+    <div class="hidden lg:block admin-shell overflow-hidden">
         <div class="table-shell">
-            <table class="min-w-full text-sm">
+            <table class="w-full text-sm ">
+
                 <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Status</th>
-                        <th></th>
+                    <tr class="items-center justify-center text-center">
+                        <th>Image</th>
+                        <th class="text-center">Product</th>
+                        <th class="text-center">Meta</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Status</th>
+                        <th class="w-[140px] text-center">Action</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    @foreach($products as $product)
-                        <tr>
+                    @foreach ($products as $product)
+                        <tr class="align-top">
+
+                            {{-- IMAGE --}}
                             <td>
-                                <div class="flex items-center gap-3">
-                                    <div class="h-14 w-14 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-                                        <img src="{{ $product->display_image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold text-slate-900">{{ $product->name }}</p>
-                                        <p class="text-xs uppercase tracking-[0.24em] text-slate-500">{{ $product->sku }}</p>
-                                    </div>
+                                <div class="h-14 w-14 overflow-hidden rounded-xl border bg-slate-100">
+                                    <img src="{{ $product->display_image_url }}" class="h-full w-full object-cover">
                                 </div>
                             </td>
-                            <td>{{ $product->category->name }}</td>
-                            <td>{{ $product->brand }}</td>
-                            <td>Rp {{ number_format((float) $product->price, 0, ',', '.') }}</td>
-                            <td>
-                                <form method="POST" action="{{ route('admin.products.stock.update', $product) }}" class="flex flex-wrap items-center gap-2">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="number" name="stock" min="0" value="{{ $product->stock }}" class="w-24 rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-700 outline-none focus:border-red-500/50">
-                                    <button type="submit" class="btn-secondary">Save</button>
-                                </form>
+
+                            {{-- PRODUCT --}}
+                            <td class="max-w-[260px]">
+                                <p class="font-semibold text-slate-900 line-clamp-2">
+                                    {{ $product->name }}
+                                </p>
+
+                                <p class="text-xs text-slate-500 mt-1">
+                                    {{ $product->sku }}
+                                </p>
                             </td>
+
+                            {{-- META (category + brand) --}}
+                            <td class="text-sm text-slate-600">
+                                <p class="font-semibold">{{ $product->brand }}</p>
+                                <p class="text-xs text-slate-500">{{ $product->category->name }}</p>
+                            </td>
+
+                            {{-- PRICE --}}
+                            <td class="font-semibold text-red-600">
+                                Rp {{ number_format((float) $product->price, 0, ',', '.') }}
+                            </td>
+
+                            {{-- STATUS --}}
                             <td>
-                                <div class="flex flex-col gap-2">
-                                    <span class="inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold {{ $product->is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="badge {{ $product->is_active ? 'badge-success' : 'badge-muted' }} w-full">
                                         {{ $product->is_active ? 'Active' : 'Inactive' }}
                                     </span>
-                                    @if($product->featured)
-                                        <span class="inline-flex w-fit rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">Featured</span>
+
+                                    @if ($product->featured)
+                                        <span class="badge badge-danger text-center w-full">Featured</span>
                                     @endif
                                 </div>
                             </td>
-                            <td class="text-right">
-                                <div class="flex flex-wrap justify-end gap-2">
-                                    <form method="POST" action="{{ route('admin.products.status.update', $product) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="is_active" value="{{ $product->is_active ? 0 : 1 }}">
-                                        <button type="submit" class="btn-secondary">{{ $product->is_active ? 'Deactivate' : 'Activate' }}</button>
-                                    </form>
-                                    <a href="{{ route('admin.products.edit', $product) }}" class="btn-secondary">Edit</a>
+
+                            {{-- ACTION --}}
+                            <td class="whitespace-nowrap">
+                                <div class="flex justify-end gap-2">
+                                    <a href="{{ route('admin.products.edit', $product) }}" class="btn-secondary w-full">
+                                        Edit
+                                    </a>
+
                                     <form method="POST" action="{{ route('admin.products.destroy', $product) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-danger">Delete</button>
+                                        @csrf @method('DELETE')
+                                        <button class="btn-danger w-full">
+                                            Delete
+                                        </button>
                                     </form>
                                 </div>
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>

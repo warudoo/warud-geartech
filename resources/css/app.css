@@ -29,7 +29,8 @@
         font-family: var(--font-sans);
     }
 
-    a, button {
+    a,
+    button {
         @apply transition-all duration-200;
     }
 }
@@ -40,6 +41,22 @@
             linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
             linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
         background-size: 32px 32px;
+    }
+
+    .badge {
+        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold;
+    }
+
+    .badge-success {
+        @apply bg-emerald-50 text-emerald-700;
+    }
+
+    .badge-muted {
+        @apply bg-slate-100 text-slate-600;
+    }
+
+    .badge-danger {
+        @apply bg-red-50 text-red-700;
     }
 
     .panel {
@@ -90,7 +107,9 @@
         @apply mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500;
     }
 
-    .form-input, .form-select, .form-textarea {
+    .form-input,
+    .form-select,
+    .form-textarea {
         @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/10;
     }
 
@@ -161,6 +180,7 @@
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
 .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
