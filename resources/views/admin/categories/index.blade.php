@@ -25,7 +25,7 @@
 
     <section class="mb-6 admin-toolbar">
         <form method="GET" action="{{ route('admin.categories.index') }}"
-            class="flex flex-col gap-3 sm:flex-row sm:items-end">
+            class="flex flex-col gap-6 sm:flex-row sm:items-end">
 
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search category..."
                 class="form-input w-full sm:w-80">

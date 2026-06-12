@@ -32,6 +32,16 @@
                 <a href="{{ route('admin.reports.index') }}" class="btn-secondary w-full sm:w-auto text-center">
                     Reset
                 </a>
+
+                <a
+    href="{{ route('admin.reports.export-csv', [
+        'from' => $from->toDateString(),
+        'to' => $to->toDateString(),
+    ]) }}"
+    class="btn-primary"
+>
+    Export CSV
+</a>
             </div>
 
         </form>

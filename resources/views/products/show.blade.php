@@ -3,7 +3,8 @@
 @section('content')
     <section class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
         <div class="panel overflow-hidden">
-            <div class="aspect-[4/3] overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
+            <div
+                class="aspect-[4/3] overflow-hidden rounded-3xl border border-slate-200 bg-black flex items-center justify-center">
                 <img src="{{ $product->display_image_url }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
             </div>
         </div>
