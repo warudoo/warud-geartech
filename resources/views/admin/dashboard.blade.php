@@ -38,7 +38,7 @@
     </section>
 
     <section class="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-        <div class="admin-shell">
+        <div class="admin-shell-rose">
             <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="eyebrow">Recent Orders</p>
@@ -73,14 +73,14 @@
         </div>
 
         <div>
-            <div class="admin-shell">
+            <div class="admin-shell-rose">
                 <div class="mb-5 flex items-end justify-between gap-3">
                     <div>
                         <p class="eyebrow">Low Stock Watch</p>
                         <h2 class="admin-section-heading">Produk Perlu Perhatian</h2>
                     </div>
                     <span
-                        class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">
+                        class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 font-semibold uppercase tracking-[0.18em] text-amber-700">
                         {{ $summary['low_stock_products'] }} item
                     </span>
                 </div>

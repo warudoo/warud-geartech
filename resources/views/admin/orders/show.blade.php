@@ -45,7 +45,7 @@
         <aside class="space-y-4">
             <div class="admin-shell">
                 <p class="eyebrow">Buyer</p>
-                <h2 class="mb-4 admin-section-heading">Order Meta</h2>
+                <h2 class="mb-4 admin-section-heading">Order Information</h2>
                 <div class="space-y-3 text-sm leading-6 text-slate-600">
                     <p><span class="text-slate-500">Customer:</span> {{ $order->customer_name }}</p>
                     <p><span class="text-slate-500">Email:</span> {{ $order->email }}</p>
@@ -53,6 +53,7 @@
                     <p><span class="text-slate-500">Address:</span><br>{{ $order->shipping_address }}</p>
                     <p><span class="text-slate-500">Paid at:</span> {{ $order->paid_at?->format('d M Y H:i') ?? 'Not paid yet' }}</p>
                     <p><span class="text-slate-500">Stock deducted:</span> {{ $order->stock_deducted_at?->format('d M Y H:i') ?? 'No' }}</p>
+                    <p><span class="text-slate-500">Order notes:</span><br>{{$order->notes}}</p>
                 </div>
             </div>
 

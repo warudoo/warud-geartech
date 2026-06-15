@@ -24,7 +24,7 @@
             <div class="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent"></div>
 
             {{-- Indicator --}}
-            <div class="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <div class="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-2 hidden">
                 <template x-for="(slide, index) in slides" :key="index">
                     <button @click="active = index"
                         :class="active === index ? 'bg-white w-5 md:w-6' : 'bg-white/50 w-2 md:w-3'"

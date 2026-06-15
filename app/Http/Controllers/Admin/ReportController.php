@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\ReportService;
+use App\Charts\TopCategoryChart;
+use App\Charts\RevenueTrendChart;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Models\Order;
+
 
 class ReportController extends Controller
 {
@@ -15,15 +18,27 @@ class ReportController extends Controller
     ) {
     }
 
-    public function index(Request $request)
+    public function index(
+    Request $request,
+    TopCategoryChart $topCategoryChart,
+    RevenueTrendChart $revenueTrendChart)
     {
         $from = $request->filled('from') ? Carbon::parse($request->string('from')->value()) : now()->subDays(29)->startOfDay();
         $to = $request->filled('to') ? Carbon::parse($request->string('to')->value()) : now()->endOfDay();
 
+        $summary = $this->reportService->summary($from, $to);
+
+        $topCategories = $this->reportService->topCategories($from, $to);
+
+        $categoryChart = $topCategoryChart->build($topCategories);
+        $revenueChart = $revenueTrendChart->build($summary['daily_sales']);
+
         return view('admin.reports.index', [
-            'summary' => $this->reportService->summary($from, $to),
+            'summary' => $summary,
             'from' => $from,
             'to' => $to,
+            'categoryChart' => $categoryChart,
+            'revenueChart' => $revenueChart,
         ]);
     }
 

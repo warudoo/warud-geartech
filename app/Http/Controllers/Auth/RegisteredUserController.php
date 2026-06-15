@@ -27,6 +27,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('home')->with('status', 'Your account is ready.');
+        return redirect()->route('home')->with('status', 'Akun sudah siap, silahkan lengkapi informasi pada bagian profile.');
     }
 }

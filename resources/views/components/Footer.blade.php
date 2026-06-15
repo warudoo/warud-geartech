@@ -4,8 +4,13 @@
         {{-- Brand --}}
         <div>
             <div class="flex items-center gap-2 mb-4">
-                <div class="flex h-10 w-10 p-6 items-center justify-center rounded-xl border border-red-200 bg-red-50">
-                    <span class="font-bold text-red-700">WGT</span>
+                <div class="flex rounded-xl border border-red-200 bg-white px-1 py-1">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
+                                style="
+                                width:38px;
+                                height:38px;
+                                display:block;
+                                object-fit:contain;">
                 </div>
                 <div>
                     <h2 class="font-semibold text-lg">Warud Geartech</h2>

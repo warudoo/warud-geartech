@@ -3,7 +3,7 @@
 @section('content')
     <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
-            <p class="eyebrow">Admin Fulfillment</p>
+            <p class="eyebrow font-extrabold">Admin Fulfillment</p>
             <h1 class="page-title">Manajemen Order</h1>
             <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Pantau antrean order customer, filter status dengan cepat, lalu masuk ke detail order untuk memproses fulfillment.</p>
         </div>

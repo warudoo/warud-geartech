@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'GearTech Store' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 @php
@@ -27,12 +28,27 @@
                 <div class="flex items-center justify-between py-4">
 
                     {{-- BRAND --}}
-                    <a href="{{ $brandHome }}" class="flex items-center gap-3">
+                    <a href="{{ $brandHome }}" class="flex items-center gap-3 hover:scale-105">
                         <div
-                            class="flex h-10 w-10 p-6 items-center justify-center rounded-xl border border-red-200 bg-red-50">
-                            <span class="font-bold text-red-700">WGT</span>
+                            style="
+                            width:50px;
+                            height:50px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border:1px solid #fecaca;
+                            border-radius:12px;
+                            overflow:hidden;
+                            flex-shrink:0;">
+                            <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
+                                style="
+                                width:38px;
+                                height:38px;
+                                display:block;
+                                object-fit:contain;">
                         </div>
-                        <div class="sm:block">
+
+                        <div>
                             <p class="font-semibold text-slate-900">Warud Geartech</p>
                             <p class="text-xs text-slate-500">
                                 {{ $isAdminUser ? 'Admin Operations' : 'Gaming Peripheral Store' }}

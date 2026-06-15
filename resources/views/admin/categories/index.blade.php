@@ -4,14 +4,30 @@
     <section class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 
         <div>
-            <p class="eyebrow">Admin Catalog</p>
+            <p class="eyebrow font-extrabold">Admin Catalog</p>
             <h1 class="page-title">Manajemen Kategori</h1>
             <p class="mt-2 text-sm text-slate-600 max-w-xl">
                 Kelola kategori dan gunakan pencarian cepat.
             </p>
         </div>
+    </section>
 
-        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+    <section class="mb-6">
+        <form method="GET" action="{{ route('admin.categories.index') }}"
+            class="flex flex-col gap-6 sm:flex-row sm:items-end">
+
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search category..."
+                class="form-input sm:w-80">
+
+            <div class="flex gap-4">
+                <button class="btn-primary sm:w-auto">Search</button>
+
+                <a href="{{ route('admin.categories.index') }}" class="btn-secondary sm:w-auto text-center">
+                    Reset
+                </a>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <a href="{{ route('admin.products.index') }}" class="btn-secondary w-full sm:w-auto text-center">
                 Lihat Produk
             </a>
@@ -19,25 +35,8 @@
             <a href="{{ route('admin.categories.create') }}" class="btn-primary w-full sm:w-auto text-center">
                 Tambah Kategori
             </a>
+
         </div>
-
-    </section>
-
-    <section class="mb-6 admin-toolbar">
-        <form method="GET" action="{{ route('admin.categories.index') }}"
-            class="flex flex-col gap-6 sm:flex-row sm:items-end">
-
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search category..."
-                class="form-input w-full sm:w-80">
-
-            <div class="flex gap-2">
-                <button class="btn-primary w-full sm:w-auto">Search</button>
-
-                <a href="{{ route('admin.categories.index') }}" class="btn-secondary w-full sm:w-auto text-center">
-                    Reset
-                </a>
-            </div>
-
         </form>
     </section>
 

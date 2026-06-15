@@ -33,15 +33,12 @@
                     Reset
                 </a>
 
-                <a
-    href="{{ route('admin.reports.export-csv', [
-        'from' => $from->toDateString(),
-        'to' => $to->toDateString(),
-    ]) }}"
-    class="btn-primary"
->
-    Export CSV
-</a>
+                <a href="{{ route('admin.reports.export-csv', [
+                    'from' => $from->toDateString(),
+                    'to' => $to->toDateString(),]) }}"
+                    class="btn-primary">
+                        Export CSV
+                </a>
             </div>
 
         </form>
@@ -57,7 +54,7 @@
             <p class="admin-stat-value">{{ $summary['paid_orders'] }}</p>
         </div>
         <div class="admin-stat-card">
-            <p class="eyebrow">AOV</p>
+            <p class="eyebrow">Average Order Value</p>
             <p class="admin-stat-value">Rp {{ number_format($summary['average_order_value'], 0, ',', '.') }}</p>
         </div>
         <div class="admin-stat-card">
@@ -65,6 +62,28 @@
             <p class="admin-stat-value">{{ $summary['low_stock_products'] }}</p>
         </div>
     </section>
+
+    <section class="mb-6 grid gap-6 xl:grid-cols-2">
+
+    <div class="admin-shell">
+        <p class="eyebrow">Category Performance</p>
+        <h2 class="admin-section-heading">
+            Top Kategori Terlaris
+        </h2>
+
+        {!! $categoryChart->container() !!}
+    </div>
+
+    <div class="admin-shell">
+        <p class="eyebrow">Revenue Trend</p>
+        <h2 class="admin-section-heading">
+            Tren Pendapatan
+        </h2>
+
+        {!! $revenueChart->container() !!}
+    </div>
+
+</section>
 
     <section class="grid gap-6 xl:grid-cols-[1fr_1fr]">
         <div class="admin-shell flex flex-col max-h-[420px]">
@@ -112,4 +131,8 @@
             </div>
         </div>
     </section>
+    <script src="{{ $categoryChart->cdn() }}"></script>
+
+{{ $categoryChart->script() }}
+{{ $revenueChart->script() }}
 @endsection

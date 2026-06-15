@@ -5,10 +5,10 @@
         <div>
             <p class="eyebrow">Store Catalog</p>
             <h1 class="page-title">Product Catalog</h1>
-            <p class="mt-2 max-w-2xl text-slate-600">Browse the catalog with simple category filters and quick keyword search.</p>
+            <p class="mt-2 max-w-2xl text-slate-600">Cari peralatan gaming yang sesuai dengan kebutuhanmu.</p>
         </div>
         <form method="GET" action="{{ route('products.index') }}" class="panel flex w-full flex-col gap-4 lg:max-w-3xl lg:flex-row">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search product or SKU" class="form-input lg:flex-1">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk disini" class="form-input lg:flex-1">
             <select name="category" class="form-select lg:w-60">
                 <option value="">All categories</option>
                 @foreach($categories as $category)

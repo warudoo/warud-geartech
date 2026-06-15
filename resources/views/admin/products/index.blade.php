@@ -4,7 +4,7 @@
     <section class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 
         <div>
-            <p class="eyebrow">Admin Inventory</p>
+            <p class="eyebrow font-extrabold">Admin Inventory</p>
             <h1 class="page-title">Manajemen Produk</h1>
             <p class="mt-2 text-sm text-slate-600 max-w-xl">
                 Kelola katalog, stok, dan status produk dengan lebih efisien.
@@ -28,7 +28,7 @@
 
             <div>
                 <label class="form-label">Search</label>
-                <input type="text" name="search" value="{{ request('search') }}" class="form-input w-full">
+                <input type="text" name="search" value="{{ request('search') }}" class="form-input w-full" placeholder="Search Product..">
             </div>
 
             <div>

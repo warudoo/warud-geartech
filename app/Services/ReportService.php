@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ReportService
 {
@@ -54,5 +55,37 @@ class ReportService
         }
 
         return $query->get();
+    }
+
+    public function topCategories(?Carbon $from = null, ?Carbon $to = null)
+{
+    $query = DB::table('order_items')
+        ->join('orders', 'order_items.order_id', '=', 'orders.id')
+        ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
+        ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        ->whereIn(
+            'orders.status',
+            array_map(
+                fn(OrderStatus $status) => $status->value,
+                OrderStatus::paidStates()
+            )
+        )
+        ->whereNotNull('orders.paid_at')
+        ->selectRaw('
+            COALESCE(categories.name, "Tanpa Kategori") as category_name,
+            SUM(order_items.quantity) as total_sold
+        ')
+        ->groupBy('category_name')
+        ->orderByDesc('total_sold');
+
+    if ($from) {
+        $query->whereDate('orders.paid_at', '>=', $from->toDateString());
+    }
+
+    if ($to) {
+        $query->whereDate('orders.paid_at', '<=', $to->toDateString());
+    }
+
+    return $query->limit(10)->get();
     }
 }
