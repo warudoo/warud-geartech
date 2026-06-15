@@ -19,8 +19,7 @@
             </div>
 
             <p class="text-sm text-white/80 leading-relaxed">
-                Warud Geartech Solution delivers high performance gaming gear served to elevate every moment of your
-                play.
+                Warud Geartech Solution menyediakan perlengkapan gaming berkualitas tinggi yang dirancang untuk meningkatkan pengalaman bermain Anda, baik untuk hiburan maupun kompetisi.
             </p>
         </div>
 

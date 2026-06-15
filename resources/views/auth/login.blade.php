@@ -16,11 +16,10 @@
                     <label for="password" class="form-label">Password</label>
                     <input id="password" type="password" name="password" class="form-input" required>
                 </div>
-                <label class="flex items-center gap-3 text-sm text-slate-600">
-                    <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-slate-300 bg-white text-red-600">
-                    Remember this device
-                </label>
-                <button type="submit" class="btn-primary w-full justify-center">Enter Storefront</button>
+                <button type="submit" class="btn-primary w-full justify-center">Login</button>
+                <a href="{{ route('password.request') }}">
+                    <div class="btn-danger w-full justify-center">Lupa password ?</div>
+                </a>
             </form>
         </div>
     </section>

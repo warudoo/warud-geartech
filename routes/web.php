@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Storefront\CartController;
 use App\Http\Controllers\Storefront\CheckoutController;
 use App\Http\Controllers\Storefront\HomeController;
@@ -28,6 +31,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.store');
 });
 
 Route::middleware('auth')->group(function () {

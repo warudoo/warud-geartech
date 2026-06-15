@@ -59,7 +59,7 @@
         <a href="{{ route('cart.index') }}" class="nav-link {{ request()->routeIs('cart.*') ? 'nav-link-active' : '' }}">
             <i data-lucide="shopping-cart" class="w-4 h-4"></i>
             &nbsp;Cart
-            <span class="ml-2 badge-danger text-xs">
+            <span class="ml-2 text-xs text-rose-700">
                 {{ $viewer->cartItems()->sum('quantity') }}
             </span>
         </a>
