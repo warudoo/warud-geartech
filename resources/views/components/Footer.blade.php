@@ -5,7 +5,7 @@
         <div>
             <div class="flex items-center gap-2 mb-4">
                 <div class="flex rounded-xl border border-red-200 bg-white px-1 py-1">
-                    <img src="{{ asset('images/logo.png') }}" alt="Warud Geartech Logo"
+                    <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
                                 style="
                                 width:38px;
                                 height:38px;
