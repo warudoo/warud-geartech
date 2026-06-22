@@ -50,7 +50,7 @@
                     @if ($order->notes)
                         <p><span class="text-slate-500">Notes:</span><br>{{ $order->notes }}</p>
                     @endif
-                    <p><span class="text-slate-500">Untuk pengaktifan garansi dan pergantian status pesanan, silahkan konfirmasi penerimaan barang dan kirim video unboxing
+                    <p><span class="font-extrabold text-red-500">Untuk pengaktifan garansi dan pergantian status pesanan, silahkan konfirmasi penerimaan barang dan kirim video unboxing
                             ke admin di salah satu platform berikut: <br>
                         </span>
                     </p>

@@ -76,7 +76,12 @@ class OrderService
                 OrderStatus::PENDING_PAYMENT => $to === OrderStatus::CANCELLED,
                 OrderStatus::PAID => in_array($to, [OrderStatus::PROCESSING, OrderStatus::CANCELLED], true),
                 OrderStatus::PROCESSING => in_array($to, [OrderStatus::SHIPPED, OrderStatus::CANCELLED], true),
-                OrderStatus::SHIPPED => $to === OrderStatus::COMPLETED,
+                OrderStatus::SHIPPED => in_array(
+                $to,
+                [
+                    OrderStatus::COMPLETED,
+                    OrderStatus::CANCELLED,
+                ], true),
                 default => false,
             },
             default => $from === $to,
