@@ -40,7 +40,7 @@
                             border-radius:12px;
                             overflow:hidden;
                             flex-shrink:0;">
-                            <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
+                            <img src="{{ asset('images/logo.png') }}" alt="Warud Geartech Logo"
                                 style="
                                 width:38px;
                                 height:38px;
