@@ -5,7 +5,7 @@
         <div>
             <div class="flex items-center gap-2 mb-4">
                 <div class="flex rounded-xl border border-red-200 bg-white px-1 py-1">
-                    <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
+                    <img src="{{ asset('images/logo.png') }}" alt="Warud Geartech Logo"
                                 style="
                                 width:38px;
                                 height:38px;
@@ -72,16 +72,16 @@
                 <h3 class="font-semibold mb-4">Media</h3>
                 <div class="flex items-center gap-4">
                     <a href="https://www.instagram.com">
-                        <x-simpleicon-instagram class="w-6 h-6 text-[#FF0069]" />
+                        <x-simpleicon-instagram class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.x.com">
-                        <x-simpleicon-x class="w-6 h-6 text-black" />
+                        <x-simpleicon-x class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.tiktok.com">
-                        <x-simpleicon-tiktok class="w-6 h-6 text-black" />
+                        <x-simpleicon-tiktok class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.whatsapp.com">
-                        <x-simpleicon-whatsapp class="w-6 h-6 text-[#25D366]" />
+                        <x-simpleicon-whatsapp class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                 </div>
             </div>

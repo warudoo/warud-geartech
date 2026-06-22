@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'GearTech Store' }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
+    <link rel="icon" type="images/logo.png" href="{{ asset('images/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 @php
@@ -40,7 +40,7 @@
                             border-radius:12px;
                             overflow:hidden;
                             flex-shrink:0;">
-                            <img src="{{ asset('storage/logo.png') }}" alt="Warud Geartech Logo"
+                            <img src="{{ asset('images/logo.png') }}" alt="Warud Geartech Logo"
                                 style="
                                 width:38px;
                                 height:38px;
