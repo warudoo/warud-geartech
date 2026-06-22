@@ -72,16 +72,16 @@
                 <h3 class="font-semibold mb-4">Media</h3>
                 <div class="flex items-center gap-4">
                     <a href="https://www.instagram.com">
-                        <x-simpleicon-instagram class="w-6 h-6 text-[#FF0069]" />
+                        <x-simpleicon-instagram class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.x.com">
-                        <x-simpleicon-x class="w-6 h-6 text-black" />
+                        <x-simpleicon-x class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.tiktok.com">
-                        <x-simpleicon-tiktok class="w-6 h-6 text-black" />
+                        <x-simpleicon-tiktok class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                     <a href="https://www.whatsapp.com">
-                        <x-simpleicon-whatsapp class="w-6 h-6 text-[#25D366]" />
+                        <x-simpleicon-whatsapp class="w-6 h-6 text-[#FFFFFF]" />
                     </a>
                 </div>
             </div>
